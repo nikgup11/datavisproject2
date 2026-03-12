@@ -1,4 +1,4 @@
-d3.csv('data/311Sample.csv') // Might be replaced with a new preprocessed CSV for specific attr
+d3.csv('/js/data/311Sample.csv') // Might be replaced with a new preprocessed CSV for specific attr
 .then(data => {
     console.log("number of items: " + data.length);
 
@@ -14,3 +14,4 @@ d3.csv('data/311Sample.csv') // Might be replaced with a new preprocessed CSV fo
 
   })
   .catch(error => console.error(error));
+
