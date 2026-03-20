@@ -36,6 +36,8 @@ class LeafletMap {
     vis.theMap = L.map('my-map', {
       center: [30, 0],
       zoom: 2,
+      minZoom: 11,
+      maxZoom: 17,
       layers: [vis.base_layer]
     });
 
