@@ -149,7 +149,7 @@ class LineChart {
 
         vis.tooltip.select('text')
             .attr('transform', `translate(${vis.xScale(d.date)}, ${vis.yScale(d.count) - 15})`)
-            .text(`${d.date.toLocaleDateString()}: ${d.count} calls`);
+            .text(`${d.count} calls`);
             });
     
     // Update the axes

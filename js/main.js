@@ -1,7 +1,15 @@
 d3.csv('/js/data/311Sample.csv') // Might be replaced with a new preprocessed CSV for specific attr
 .then(data => {
     console.log("number of items: " + data.length);
-    const parseDate = d3.timeParse("%Y %b %d %I:%M:%S %p");
+    
+
+
+    function parseDate(str) {
+      if (!str || str.trim() === '') return null;
+      const parts = str.trim().split(/\s+/);
+      const months = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+      return new Date(+parts[0], months[parts[1]], +parts[2]); // local midnight
+    }
 
     data.forEach(d => {
       d.LATITUDE = +d.LATITUDE; 
@@ -52,16 +60,17 @@ d3.csv('/js/data/311Sample.csv') // Might be replaced with a new preprocessed CS
 
 
 
+
+
  const binnedData = d3.rollups(
   data.filter(d => d.DATE_CREATED !== null),
-  v => v.length,           // count records per bin
-  d => d3.timeDay.floor(d.DATE_CREATED)  // bin by day
+  v => v.length,          // ← this IS the count: how many records share the same day
+  d => +d3.timeDay.floor(d.DATE_CREATED)  // ← groups records by day
 )
-.map(([date, count]) => ({ date, count }))  // reshape to {date, count}
-.sort((a, b) => a.date - b.date);           // sort chronologically
-
+.map(([date, count]) => ({ date, count }))
+.sort((a, b) => a.date - b.date);   // sort chronologically
+console.log('max count:', d3.max(binnedData, d => d.count));
 lineChart = new LineChart({ parentElement: '#line-chart' }, binnedData);
-console.log(binnedData)
 lineChart.updateVis();
 
 })
