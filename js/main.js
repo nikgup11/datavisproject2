@@ -79,7 +79,7 @@ d3.csv('/js/data/311Sample.csv') // Might be replaced with a new preprocessed CS
 
 console.log('barchart data:', barchartData);  // verify it looks right
 
-barchart = new Barchart({ parentElement: '#chart', yAxisLabel: 'Number of Calls' }, barchartData);
+barchart = new BarChart({ parentElement: '#chart', yAxisLabel: 'Number of Calls' }, barchartData);
 barchart.updateVis();
 
 
