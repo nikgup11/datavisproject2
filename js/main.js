@@ -69,13 +69,24 @@ d3.csv('/js/data/311Sample.csv') // Might be replaced with a new preprocessed CS
     );
   });
 
+  const barchartData = d3.rollups(
+  data,
+  v => v.length,
+  d => d.PRIORITY        // ← d not d3
+)
+.map(([priority, count]) => ({ priority, count }))
+.sort((a, b) => a.priority - b.priority);  // sort numerically by priority
 
+console.log('barchart data:', barchartData);  // verify it looks right
+
+barchart = new Barchart({ parentElement: '#chart', yAxisLabel: 'Number of Calls' }, barchartData);
+barchart.updateVis();
 
 
 // Line Chart Initialization
  const binnedData = d3.rollups(
   data.filter(d => d.DATE_CREATED !== null),
-  v => v.length,          // ← this IS the count: how many records share the same day
+  v => v.length,          
   d => +d3.timeDay.floor(d.DATE_CREATED)  // ← groups records by day
 )
 .map(([date, count]) => ({ date, count }))
